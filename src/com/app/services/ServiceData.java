@@ -80,5 +80,26 @@ public class ServiceData {
             pst.setInt(7, data.getId());
          pst.execute();
          pst.close();
-     }   
+     } 
+     public List<ModelData> searchData(String search)throws SQLException{
+        List<ModelData> list = new ArrayList<>();
+        //String sql = "SELECT * FROM data WHERE Kode_Barang LIKE '%"+search+"%' OR Nama_Barang LIKE '%"+search+"%' OR Model LIKE '%"+search+"%' OR Jenis LIKE '%"+search+"%' OR Kadar LIKE '%"+search+"%' OR Berat LIKE '%"+search+"%' LIMIT 0, 25;";
+        String sql =  "SELECT * FROM data WHERE Kode_Barang LIKE '%"+search+"%' OR Nama_Barang LIKE '%"+search+"%'";
+        pst = CC.prepareStatement(sql);
+        rs = pst.executeQuery();
+         System.out.println(search);
+         System.out.println(rs);
+        while(rs.next()){
+            String kodeBarang = rs.getString("Kode_Barang");
+            String namaBarang = rs.getString("Nama_Barang");
+            String model = rs.getString("Model");
+            String jenis = rs.getString("Jenis");
+            String kadar = rs.getString("Kadar");
+            int berat = rs.getInt("Berat");
+            list.add(new ModelData(kodeBarang, namaBarang, model, jenis, kadar, berat));
+        }
+        rs.close();
+        pst.close();
+        return list;
+     }
 }
