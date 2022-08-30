@@ -5,17 +5,28 @@
 package com.app.main;
 
 import com.app.config.SystemProperties;
+import com.app.config.connection;
 import com.app.event.EventColorChange;
 import com.app.form.Home;
 import com.app.form.Settings;
 import com.app.menu.EventMenu;
 import com.app.session.UserSession;
+import com.app.swing.Notifications;
 import com.app.theme.SystemTheme;
 import com.app.theme.ThemeColorChange;
 import java.awt.Color;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
+import notification.Notification;
 
 public class Dashboard extends javax.swing.JFrame {
-
+    ResultSet rs = null;
+    Connection CC = new connection().connect();;
+    PreparedStatement pst = null;
+    Statement stt;
+    
      public Dashboard() {
         initComponents();
         setBackground(new Color (0,0,0,0));
@@ -25,6 +36,9 @@ public class Dashboard extends javax.swing.JFrame {
     private Settings settingForm;
 
     private void init(){
+        Notifications notf = new Notifications();
+        notf.setFram(this);
+        System.out.println(notf.getFram());
         header1.initMoving(this);
         header1.initEvent(this, panelBackground);
         menu.addEventMenu(new EventMenu() {
@@ -59,8 +73,9 @@ public class Dashboard extends javax.swing.JFrame {
         });
         settingForm.setSelectedThemeColor(pro.getColor());
         mainBody.displayForm(new Home());
-       
-        
+    }
+    public void notification(){
+        Notification noti= new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Login Berhasil !");
         
     }
    

@@ -16,7 +16,6 @@ import com.app.model.ModelData;
 import com.app.services.ServiceData;
 import com.app.swing.Button;
 import com.app.swing.TextField;
-import com.app.swing.table.Table;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.Connection;
@@ -24,10 +23,8 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 import javax.swing.RowFilter;
-import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableModel;
 import javax.swing.table.TableRowSorter;
 
 
@@ -43,12 +40,13 @@ public class Home extends Form {
         table1.addTableStyle(jScrollPane2);
         init();
         showTable();
+        serch.setForeground(new Color(230,230,230));
    
     }
     private void init(){
         SystemProperties pro = new SystemProperties();
         pro.loadFromFile();
-         for(Component com : panelShadow2.getComponents()){  
+         for(Component com : txt.getComponents()){  
             if(com instanceof TextField){
                  TextField txt = (TextField) com;
                  txt.setBackground(new Color(0,0,0,0));
@@ -68,13 +66,14 @@ public class Home extends Form {
         table1.addTableCell(new CellKadar(), 4);
         table1.addTableCell(new CellBerat(), 5);
         table1.addTableCell(new CellAction(), 6);
-     
           new Thread(new Runnable() {
             @Override
             public void run() {
                 try {
                     for (ModelData data : new ServiceData().getDataBarang()) {
+                        table1.autoRowHeight();
                         table1.addRow(data, false);
+       
                     }
                 } catch (SQLException e) {
                     System.err.println(e);
@@ -82,19 +81,16 @@ public class Home extends Form {
             }
         }).start();
     }
-        
-
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
         jPanel1 = new javax.swing.JPanel();
-        panelShadow2 = new com.app.swing.PanelShadow();
-        cmdSearch = new com.app.swing.TextField();
+        txt = new com.app.swing.PanelShadow();
         jScrollPane2 = new javax.swing.JScrollPane();
         table1 = new com.app.swing.table.Table();
         button1 = new com.app.swing.Button();
-        button2 = new com.app.swing.Button();
+        serch = new com.app.swing.TextField();
         lbBack1 = new javax.swing.JLabel();
 
         jPanel1.setOpaque(false);
@@ -110,15 +106,7 @@ public class Home extends Form {
             .addGap(0, 350, Short.MAX_VALUE)
         );
 
-        panelShadow2.setBackground(new java.awt.Color(40, 40, 40));
-
-        cmdSearch.setForeground(new java.awt.Color(230, 230, 230));
-        cmdSearch.setLabelText("Search");
-        cmdSearch.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                cmdSearchKeyReleased(evt);
-            }
-        });
+        txt.setBackground(new java.awt.Color(40, 40, 40));
 
         table1.setBackground(new java.awt.Color(60, 60, 60));
         table1.setForeground(new java.awt.Color(230, 230, 230));
@@ -154,47 +142,35 @@ public class Home extends Form {
             }
         });
 
-        button2.setForeground(new java.awt.Color(230, 230, 230));
-        button2.setText("Search");
-        button2.setFont(new java.awt.Font("SansSerif", 1, 12)); // NOI18N
-        button2.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                button2ActionPerformed(evt);
+        serch.setLabelText("Search");
+        serch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                serchKeyReleased(evt);
             }
         });
 
-        javax.swing.GroupLayout panelShadow2Layout = new javax.swing.GroupLayout(panelShadow2);
-        panelShadow2.setLayout(panelShadow2Layout);
-        panelShadow2Layout.setHorizontalGroup(
-            panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(panelShadow2Layout.createSequentialGroup()
+        javax.swing.GroupLayout txtLayout = new javax.swing.GroupLayout(txt);
+        txt.setLayout(txtLayout);
+        txtLayout.setHorizontalGroup(
+            txtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(txtLayout.createSequentialGroup()
                 .addGap(16, 16, 16)
-                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                    .addGroup(panelShadow2Layout.createSequentialGroup()
+                .addGroup(txtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addGroup(txtLayout.createSequentialGroup()
                         .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(cmdSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 341, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(18, 18, 18)
-                        .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addContainerGap())
-                    .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(16, 16, 16))))
+                        .addComponent(serch, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 893, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(16, 16, 16))
         );
-        panelShadow2Layout.setVerticalGroup(
-            panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, panelShadow2Layout.createSequentialGroup()
-                .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addContainerGap(29, Short.MAX_VALUE)
-                        .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED))
-                    .addGroup(panelShadow2Layout.createSequentialGroup()
-                        .addContainerGap()
-                        .addGroup(panelShadow2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(cmdSearch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(button2, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        txtLayout.setVerticalGroup(
+            txtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, txtLayout.createSequentialGroup()
+                .addContainerGap(20, Short.MAX_VALUE)
+                .addGroup(txtLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(button1, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(serch, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 183, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18))
         );
@@ -213,7 +189,7 @@ public class Home extends Form {
                         .addGap(65, 65, 65)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lbBack1)
-                            .addComponent(panelShadow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(12, 12, 12)
                         .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
@@ -225,7 +201,7 @@ public class Home extends Form {
                 .addGap(21, 21, 21)
                 .addComponent(lbBack1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(panelShadow2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
@@ -235,28 +211,28 @@ public class Home extends Form {
         // TODO add your handling code here:
         Insert in = new Insert();
         in.setVisible(true);
-        
+ 
+        //table1.insertRowWithEdit(new ModelData(0,"","","","","",0), 0, true);
+
     }//GEN-LAST:event_button1ActionPerformed
 
-    private void cmdSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_cmdSearchKeyReleased
+    private void serchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_serchKeyReleased
         // TODO add your handling code here:
-   
-    }//GEN-LAST:event_cmdSearchKeyReleased
-
-    private void button2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button2ActionPerformed
-        // TODO add your handling code here:
-      
-    }//GEN-LAST:event_button2ActionPerformed
+                table1.stopCellEditing();
+                TableRowSorter<TableModel> sorter = new TableRowSorter<>(table1.getModel());
+                sorter.setRowFilter(RowFilter.regexFilter(serch.getText()));
+                table1.setRowSorter(sorter);
+                table1.autoRowHeight();
+    }//GEN-LAST:event_serchKeyReleased
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private com.app.swing.Button button1;
-    private com.app.swing.Button button2;
-    private com.app.swing.TextField cmdSearch;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JLabel lbBack1;
-    private com.app.swing.PanelShadow panelShadow2;
+    private com.app.swing.TextField serch;
     private com.app.swing.table.Table table1;
+    private com.app.swing.PanelShadow txt;
     // End of variables declaration//GEN-END:variables
 }

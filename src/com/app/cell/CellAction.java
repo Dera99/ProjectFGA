@@ -36,7 +36,9 @@ public class CellAction extends TableCustomCell {
         cmdDelete.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent ae) {
-                int dataID = ((ModelData) data).getId();
+                int dataID;
+                dataID = ((ModelData) data).getId();
+                System.out.println(dataID);
                 if (dataID != 0) {
                     try {
                         new ServiceData().deleteData(dataID);

@@ -4,7 +4,6 @@ import com.raven.table.model.TableRowData;
 
 public class ModelData extends TableRowData {
 
-
     public int getId() {
         return id;
     }
@@ -48,7 +47,8 @@ public class ModelData extends TableRowData {
         this.berat = berat;
     }
 
-     public ModelData(String kodeBarang,String namaBarang,String model,String jenis,String kadar,int berat) {
+     public ModelData(int id,String kodeBarang,String namaBarang,String model,String jenis,String kadar,int berat) {
+      this.id = id;
       this.kodeBarang = kodeBarang;
       this.namaBarang = namaBarang;
       this.model = model;

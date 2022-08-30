@@ -14,8 +14,11 @@ import com.app.swing.win_button.WinButton;
 import java.awt.Color;
 import java.awt.Component;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import java.util.regex.Pattern;
 import javax.swing.JOptionPane;
 import notification.Notification;
 
@@ -49,19 +52,40 @@ public class Insert extends javax.swing.JFrame{
    
          }
     }
-    private void insert(){
+    private void insertData(){
+       try {
         Notification succ= new Notification(this, Notification.Type.SUCCESS, Notification.Location.TOP_CENTER, "Data Has Been Saved Successfully!");
-        Notification er= new Notification(this, Notification.Type.ERROR, Notification.Location.CENTER, "ERROR : Failed To Save Data !");
+        Notification er= new Notification(this, Notification.Type.ERROR, Notification.Location.CENTER, "Failed To Save Data !");
+        
         String kode = kdBarang.getText();
         String nama = nmBarang.getText();
         String modl = mdl.getText();
         String jns = jenis.getSelectedItem().toString();
         String kdr = kadar.getSelectedItem().toString();  
-        int brt = Integer.parseInt(berat.getText());
-        ModelData data = new ModelData(kode, nama, modl, jns, kdr, brt);
+        int brt = Integer.parseInt(berat.getText());  
+        System.out.println(jns);
+        if(jenis.getSelectedItem()==null || kadar.getSelectedItem()==null){
+                jns="";
+                kdr="";
+                er.showNotification();
+         }
+        ModelData rows = new ModelData();
+        ModelData data = new ModelData(rows.getId(),kode, nama, modl, jns, kdr, brt);
         ServiceData in = new ServiceData();
-        in.insertData(data);
-        succ.showNotification();
+        
+            if(kode.equals("") || nama.equals("") || modl.equals("")){
+                er.showNotification();
+            }else{
+                in.insertData(data);
+                succ.showNotification();
+            }
+        } catch (Exception ex) {
+            Logger.getLogger(Insert.class.getName()).log(Level.SEVERE, null, ex);
+            Notification er= new Notification(this, Notification.Type.ERROR, Notification.Location.TOP_CENTER, "Failed To Save Data !");
+            er.showNotification();
+        }
+        
+        
            
     }
      
@@ -259,7 +283,7 @@ public class Insert extends javax.swing.JFrame{
     }//GEN-LAST:event_button15ActionPerformed
 
     private void button13ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_button13ActionPerformed
-        insert();
+        insertData();
     }//GEN-LAST:event_button13ActionPerformed
 
     private void mdltextField3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mdltextField3ActionPerformed
